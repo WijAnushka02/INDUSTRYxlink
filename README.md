@@ -1,4 +1,4 @@
-# INDUSTRYxlink# INDUSTRYxLINK – Industry–Academia Engagement Platform
+# INDUSTRYxLINK – Industry–Academia Engagement Platform
 
 > A centralised platform connecting universities and companies to discover, coordinate, manage, and analyse industry visits and academic–industry engagement opportunities.
 
