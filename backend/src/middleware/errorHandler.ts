@@ -13,16 +13,15 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
 
   // Handle Zod Validation Errors
   if (err instanceof ZodError) {
-    statusCode = 400;
-    message = 'Validation failed';
-    return res.status(statusCode).json({
-      message,
-      errors: err.errors.map((e) => ({
-        path: e.path.join('.'),
-        message: e.message,
-      })),
-      stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+    const formattedErrors = err.issues.map((e: any) => ({
+      field: e.path.join('.'),
+      message: e.message,
+    }));
+    res.status(400).json({
+      message: 'Validation failed',
+      errors: formattedErrors,
     });
+    return;
   }
 
   res.status(statusCode).json({

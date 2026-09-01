@@ -8,7 +8,10 @@ export interface IUser extends Document {
   companyId?: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
+  comparePassword(enteredPassword: string): Promise<boolean>;
 }
+
+import bcrypt from 'bcrypt';
 
 const UserSchema: Schema = new Schema(
   {
@@ -30,5 +33,20 @@ const UserSchema: Schema = new Schema(
   },
   { timestamps: true }
 );
+
+// Hash password before saving
+UserSchema.pre<IUser>('save', async function () {
+  if (!this.isModified('password')) {
+    return;
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password as string, salt);
+});
+
+// Method to compare passwords
+UserSchema.methods.comparePassword = async function (enteredPassword: string): Promise<boolean> {
+  return await bcrypt.compare(enteredPassword, this.password as string);
+};
 
 export default mongoose.model<IUser>('User', UserSchema);

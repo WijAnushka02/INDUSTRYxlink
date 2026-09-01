@@ -6,7 +6,11 @@ import ProfileService from '../services/ProfileService';
 
 // Helper to generate and set JWT in a cookie
 const generateTokenAndSetCookie = (res: Response, userId: string) => {
-  const token = jwt.sign({ id: userId }, process.env.JWT_SECRET || 'fallback_secret', {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('FATAL ERROR: JWT_SECRET is not defined.');
+  }
+
+  const token = jwt.sign({ id: userId }, process.env.JWT_SECRET, {
     expiresIn: '30d',
   });
 
@@ -36,8 +40,8 @@ export const registerUser = asyncHandler(async (req: Request, res: Response): Pr
     email,
     password,
     role,
-    universityId: profileIds.universityId,
-    companyId: profileIds.companyId,
+    ...(profileIds.universityId && { universityId: profileIds.universityId }),
+    ...(profileIds.companyId && { companyId: profileIds.companyId }),
   });
 
   if (user) {
@@ -76,9 +80,10 @@ export const loginUser = asyncHandler(async (req: Request, res: Response): Promi
 });
 
 export const logoutUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  res.cookie('jwt', '', {
+  res.clearCookie('jwt', {
     httpOnly: true,
-    expires: new Date(0),
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
   });
   res.status(200).json({ message: 'Logged out successfully' });
 });

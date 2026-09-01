@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, Building, GraduationCap, MapPin } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 
 const MainLayout: React.FC = () => {
   const { user, logout } = useAuth();

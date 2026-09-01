@@ -11,7 +11,10 @@ export const protect = async (req: AuthRequest, res: Response, next: NextFunctio
 
   if (token) {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret') as { id: string };
+      if (!process.env.JWT_SECRET) {
+        throw new Error('FATAL ERROR: JWT_SECRET is not defined.');
+      }
+      const decoded = jwt.verify(token, process.env.JWT_SECRET) as { id: string };
       
       const user = await User.findById(decoded.id).select('-password');
       if (!user) {

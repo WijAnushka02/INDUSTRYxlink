@@ -43,7 +43,7 @@ const Landing: React.FC = () => {
 
         {/* Feature Grid */}
         <div className="mt-32 grid md:grid-cols-3 gap-12">
-          <div className="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow border border-gray-100">
+          <Link to="/discover" className="bg-gray-50 rounded-2xl p-8 hover:shadow-xl hover:-translate-y-1 transition-all border border-gray-100 block cursor-pointer">
             <div className="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-6">
               <Zap className="h-7 w-7 text-indigo-600" />
             </div>
@@ -51,8 +51,8 @@ const Landing: React.FC = () => {
             <p className="text-gray-600 leading-relaxed">
               Our recommendation engine matches university requirements with the perfect company visit opportunities.
             </p>
-          </div>
-          <div className="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow border border-gray-100">
+          </Link>
+          <Link to="/register" className="bg-gray-50 rounded-2xl p-8 hover:shadow-xl hover:-translate-y-1 transition-all border border-gray-100 block cursor-pointer">
             <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
               <ShieldCheck className="h-7 w-7 text-blue-600" />
             </div>
@@ -60,8 +60,8 @@ const Landing: React.FC = () => {
             <p className="text-gray-600 leading-relaxed">
               Handle visit requests, approvals, quotas, and cancellations securely from a single dashboard.
             </p>
-          </div>
-          <div className="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow border border-gray-100">
+          </Link>
+          <Link to="/analytics" className="bg-gray-50 rounded-2xl p-8 hover:shadow-xl hover:-translate-y-1 transition-all border border-gray-100 block cursor-pointer">
             <div className="w-14 h-14 bg-cyan-100 rounded-xl flex items-center justify-center mb-6">
               <BarChart3 className="h-7 w-7 text-cyan-600" />
             </div>
@@ -69,7 +69,7 @@ const Landing: React.FC = () => {
             <p className="text-gray-600 leading-relaxed">
               Track historical engagement data, measure student impact, and optimize future academia-industry collaborations.
             </p>
-          </div>
+          </Link>
         </div>
       </main>
     </div>

@@ -32,7 +32,7 @@ export const getOpportunities = asyncHandler(async (req: AuthRequest, res: Respo
 });
 
 export const getOpportunityById = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
-  const opportunity = await OpportunityService.getOpportunityById(req.params.id);
+  const opportunity = await OpportunityService.getOpportunityById(req.params.id as string);
   
   if (!opportunity) {
     res.status(404);
@@ -40,4 +40,13 @@ export const getOpportunityById = asyncHandler(async (req: AuthRequest, res: Res
   }
   
   res.json(opportunity);
+});
+
+export const getPublicOpportunities = asyncHandler(async (req: any, res: Response): Promise<void> => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+
+  // Uses the same service method but this endpoint bypasses the protect middleware
+  const result = await OpportunityService.getPaginatedOpportunities(page, limit);
+  res.json(result);
 });
