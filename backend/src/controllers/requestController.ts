@@ -56,7 +56,7 @@ export const updateRequestStatus = asyncHandler(async (req: AuthRequest, res: Re
     throw new Error('Only companies can update request status');
   }
 
-  const visitRequest = await RequestService.updateRequestStatus(req.params.id, status);
+  const visitRequest = await RequestService.updateRequestStatus(req.params.id as string, status);
 
   if (!visitRequest) {
     res.status(404);

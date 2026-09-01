@@ -6,19 +6,41 @@ import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
 
+import axios from 'axios';
+
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('UNIVERSITY_COORDINATOR');
   const [orgName, setOrgName] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login({ _id: '123', email, role: role as any, universityId: 'u1' });
-    if (role === 'UNIVERSITY_COORDINATOR') navigate('/app/university');
-    else navigate('/app/company');
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post('/api/v1/auth/register', { email, password, role, orgName });
+      const userData = response.data;
+      
+      login(userData);
+      
+      if (userData.role === 'UNIVERSITY_COORDINATOR') {
+        navigate('/app/university');
+      } else if (userData.role === 'COMPANY_COORDINATOR') {
+        navigate('/app/company');
+      } else {
+        navigate('/app');
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Failed to register. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -69,8 +91,15 @@ const Register: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              <Button type="submit" fullWidth>
-                <UserPlus className="w-5 h-5 mr-2" /> Register
+              {error && (
+                <div className="text-red-500 text-sm bg-red-50 p-3 rounded-md">
+                  {error}
+                </div>
+              )}
+
+              <Button type="submit" fullWidth disabled={isLoading}>
+                <UserPlus className="w-5 h-5 mr-2" /> 
+                {isLoading ? 'Registering...' : 'Register'}
               </Button>
             </form>
             <div className="mt-6 text-center">

@@ -5,6 +5,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import PublicDiscovery from './pages/PublicDiscovery';
+import PublicAnalytics from './pages/PublicAnalytics';
 import DashboardUniversity from './pages/DashboardUniversity';
 import DashboardCompany from './pages/DashboardCompany';
 import MainLayout from './layouts/MainLayout';
@@ -27,6 +29,8 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/discover" element={<PublicDiscovery />} />
+      <Route path="/analytics" element={<PublicAnalytics />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       

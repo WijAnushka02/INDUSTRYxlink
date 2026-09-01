@@ -6,17 +6,40 @@ import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
 
+import axios from 'axios';
+
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login for MVP UI
-    login({ _id: '123', email, role: 'UNIVERSITY_COORDINATOR', universityId: 'u1' });
-    navigate('/app/university');
+    setError('');
+    setIsLoading(true);
+    
+    try {
+      const response = await axios.post('/api/v1/auth/login', { email, password });
+      const userData = response.data;
+      
+      login(userData);
+      
+      // Redirect based on role
+      if (userData.role === 'COMPANY_COORDINATOR') {
+        navigate('/app/company');
+      } else if (userData.role === 'UNIVERSITY_COORDINATOR') {
+        navigate('/app/university');
+      } else {
+        navigate('/app');
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Failed to login. Please check your credentials.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -47,8 +70,15 @@ const Login: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              <Button type="submit" fullWidth>
-                <LogIn className="w-5 h-5 mr-2" /> Sign in
+              {error && (
+                <div className="text-red-500 text-sm bg-red-50 p-3 rounded-md">
+                  {error}
+                </div>
+              )}
+
+              <Button type="submit" fullWidth disabled={isLoading}>
+                <LogIn className="w-5 h-5 mr-2" /> 
+                {isLoading ? 'Signing in...' : 'Sign in'}
               </Button>
             </form>
             <div className="mt-6 text-center">

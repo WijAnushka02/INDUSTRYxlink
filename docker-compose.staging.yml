@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      target: production
+    ports:
+      - "5001:5000"
+    environment:
+      - NODE_ENV=staging
+      - PORT=5000
+      - MONGO_URI=${MONGO_URI_STAGING}
+      - JWT_SECRET=${JWT_SECRET_STAGING}
+      - REDIS_URL=redis://redis-staging:6379
+      - FRONTEND_URL=https://staging.industryxlink.com
+      - SENTRY_DSN=${SENTRY_DSN_BACKEND}
+    depends_on:
+      - redis-staging
+    restart: unless-stopped
+
+  frontend:
+    build: 
+      context: ./frontend
+      target: production
+    ports:
+      - "8081:80"
+    restart: unless-stopped
+
+  redis-staging:
+    image: redis:alpine
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data_staging:/data
+    restart: unless-stopped
+
+volumes:
+  redis_data_staging:
