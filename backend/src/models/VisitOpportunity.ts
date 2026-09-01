@@ -29,4 +29,7 @@ const VisitOpportunitySchema: Schema = new Schema(
   { timestamps: true }
 );
 
+VisitOpportunitySchema.index({ status: 1 });
+VisitOpportunitySchema.index({ companyId: 1 });
+
 export default mongoose.model<IVisitOpportunity>('VisitOpportunity', VisitOpportunitySchema);

@@ -1,52 +1,43 @@
 import { Response } from 'express';
-import VisitOpportunity from '../models/VisitOpportunity';
+import asyncHandler from 'express-async-handler';
+import OpportunityService from '../services/OpportunityService';
 import { AuthRequest } from '../middleware/auth';
 
-export const createOpportunity = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    const { visitDate, durationHours, capacity, topic, eligibleDegrees } = req.body;
+export const createOpportunity = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+  const { visitDate, durationHours, capacity, topic, eligibleDegrees } = req.body;
 
-    if (req.user?.profileModel !== 'Company' || !req.user?.profileId) {
-      res.status(403).json({ message: 'Only companies can create opportunities' });
-      return;
-    }
-
-    const opportunity = await VisitOpportunity.create({
-      companyId: req.user.profileId,
-      visitDate,
-      durationHours,
-      capacity,
-      topic,
-      eligibleDegrees,
-    });
-
-    res.status(201).json(opportunity);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  if (!req.user?.companyId) {
+    res.status(403);
+    throw new Error('Only companies can create opportunities');
   }
-};
 
-export const getOpportunities = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    // Basic filtering can be added here
-    const opportunities = await VisitOpportunity.find({ status: 'OPEN' }).populate('companyId', 'name location');
-    res.json(opportunities);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
-  }
-};
+  const opportunity = await OpportunityService.createOpportunity({
+    companyId: req.user.companyId,
+    visitDate,
+    durationHours,
+    capacity,
+    topic,
+    eligibleDegrees,
+  });
 
-export const getOpportunityById = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    const opportunity = await VisitOpportunity.findById(req.params.id).populate('companyId', 'name location website');
-    
-    if (!opportunity) {
-      res.status(404).json({ message: 'Opportunity not found' });
-      return;
-    }
-    
-    res.json(opportunity);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  res.status(201).json(opportunity);
+});
+
+export const getOpportunities = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+
+  const result = await OpportunityService.getPaginatedOpportunities(page, limit);
+  res.json(result);
+});
+
+export const getOpportunityById = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+  const opportunity = await OpportunityService.getOpportunityById(req.params.id);
+  
+  if (!opportunity) {
+    res.status(404);
+    throw new Error('Opportunity not found');
   }
-};
+  
+  res.json(opportunity);
+});

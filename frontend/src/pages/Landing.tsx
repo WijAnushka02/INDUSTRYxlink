@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Building2, GraduationCap, ArrowRight, ShieldCheck, Zap, BarChart3 } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Zap, BarChart3 } from 'lucide-react';
+import Button from '../components/ui/Button';
 
 const Landing: React.FC = () => {
   return (
@@ -15,8 +16,8 @@ const Landing: React.FC = () => {
             <Link to="/login" className="text-gray-600 hover:text-gray-900 font-medium px-4 py-2">
               Log in
             </Link>
-            <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2 rounded-full transition-colors">
-              Get Started
+            <Link to="/register">
+              <Button size="sm">Get Started</Button>
             </Link>
           </div>
         </div>
@@ -32,8 +33,10 @@ const Landing: React.FC = () => {
             Discover, coordinate, and manage industry visits seamlessly. Stop relying on endless emails and spreadsheets.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/register" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 shadow-lg hover:shadow-xl transition-all">
-              Start Free Trial <ArrowRight className="ml-2 h-5 w-5" />
+            <Link to="/register" className="w-full sm:w-auto">
+              <Button size="lg" className="shadow-lg hover:shadow-xl transition-all">
+                Start Free Trial <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </Link>
           </div>
         </div>
