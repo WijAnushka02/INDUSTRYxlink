@@ -15,12 +15,16 @@ app.use(cors());
 app.use(express.json());
 
 import authRoutes from './routes/authRoutes';
+import opportunityRoutes from './routes/opportunityRoutes';
+import requestRoutes from './routes/requestRoutes';
 
 // Connect to MongoDB
 connectDB();
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/opportunities', opportunityRoutes);
+app.use('/api/requests', requestRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
