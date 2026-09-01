@@ -14,8 +14,13 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+import authRoutes from './routes/authRoutes';
+
 // Connect to MongoDB
 connectDB();
+
+// Routes
+app.use('/api/auth', authRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
