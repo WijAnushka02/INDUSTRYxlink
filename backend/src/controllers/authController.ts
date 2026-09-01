@@ -1,94 +1,88 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
+import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
-import University from '../models/University';
-import Company from '../models/Company';
+import ProfileService from '../services/ProfileService';
 
-const generateToken = (id: string, role: string, profileId?: string, profileModel?: string) => {
-  return jwt.sign({ id, role, profileId, profileModel }, process.env.JWT_SECRET || 'fallback_secret', {
+// Helper to generate and set JWT in a cookie
+const generateTokenAndSetCookie = (res: Response, userId: string) => {
+  const token = jwt.sign({ id: userId }, process.env.JWT_SECRET || 'fallback_secret', {
     expiresIn: '30d',
   });
+
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+  });
+
+  return token;
 };
 
-export const registerUser = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { email, password, role, orgName } = req.body;
+export const registerUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  const { email, password, role, orgName } = req.body;
 
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      res.status(400).json({ message: 'User already exists' });
-      return;
-    }
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    res.status(400);
+    throw new Error('User already exists');
+  }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+  // Handle profile creation based on role
+  const profileIds = await ProfileService.createProfile(role, orgName);
 
-    let profileId;
-    let profileModel;
+  const user = await User.create({
+    email,
+    password,
+    role,
+    universityId: profileIds.universityId,
+    companyId: profileIds.companyId,
+  });
 
-    // Create the organization profile based on role
-    if (role === 'UNIVERSITY_COORDINATOR' && orgName) {
-      const university = await University.create({ name: orgName, coordinators: [] });
-      profileId = university._id;
-      profileModel = 'University';
-    } else if (role === 'COMPANY_COORDINATOR' && orgName) {
-      const company = await Company.create({ name: orgName, coordinators: [] });
-      profileId = company._id;
-      profileModel = 'Company';
-    }
-
-    const user = await User.create({
-      email,
-      password: hashedPassword,
-      role,
-      profileId,
-      profileModel,
-    });
-
-    // Update the organization with the new coordinator
-    if (profileModel === 'University') {
-      await University.findByIdAndUpdate(profileId, { $push: { coordinators: user._id } });
-    } else if (profileModel === 'Company') {
-      await Company.findByIdAndUpdate(profileId, { $push: { coordinators: user._id } });
-    }
-
+  if (user) {
+    generateTokenAndSetCookie(res, user._id.toString());
     res.status(201).json({
-      _id: user.id,
+      _id: user._id,
       email: user.email,
       role: user.role,
-      token: generateToken(user.id, user.role, user.profileId?.toString(), user.profileModel),
+      universityId: user.universityId,
+      companyId: user.companyId,
     });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } else {
+    res.status(400);
+    throw new Error('Invalid user data');
   }
-};
+});
 
-export const loginUser = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { email, password } = req.body;
+export const loginUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (user && (await bcrypt.compare(password, user.password || ''))) {
-      res.json({
-        _id: user.id,
-        email: user.email,
-        role: user.role,
-        token: generateToken(user.id, user.role, user.profileId?.toString(), user.profileModel),
-      });
-    } else {
-      res.status(401).json({ message: 'Invalid email or password' });
-    }
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  const user = await User.findOne({ email });
+
+  if (user && (await user.comparePassword(password))) {
+    generateTokenAndSetCookie(res, user._id.toString());
+    res.json({
+      _id: user._id,
+      email: user.email,
+      role: user.role,
+      universityId: user.universityId,
+      companyId: user.companyId,
+    });
+  } else {
+    res.status(401);
+    throw new Error('Invalid email or password');
   }
-};
+});
 
-export const getMe = async (req: any, res: Response): Promise<void> => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
-  }
-};
+export const logoutUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: 'Logged out successfully' });
+});
+
+export const getMe = asyncHandler(async (req: any, res: Response): Promise<void> => {
+  res.status(200).json(req.user);
+});

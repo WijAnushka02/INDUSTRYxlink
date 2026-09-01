@@ -4,8 +4,8 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   role: 'STUDENT' | 'LECTURER' | 'UNIVERSITY_COORDINATOR' | 'COMPANY_COORDINATOR' | 'ADMIN';
-  profileId?: mongoose.Types.ObjectId;
-  profileModel?: 'University' | 'Company';
+  universityId?: mongoose.Types.ObjectId;
+  companyId?: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -19,8 +19,14 @@ const UserSchema: Schema = new Schema(
       enum: ['STUDENT', 'LECTURER', 'UNIVERSITY_COORDINATOR', 'COMPANY_COORDINATOR', 'ADMIN'],
       default: 'STUDENT',
     },
-    profileId: { type: Schema.Types.ObjectId, refPath: 'profileModel' },
-    profileModel: { type: String, enum: ['University', 'Company'] },
+    universityId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'University',
+    },
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Company',
+    },
   },
   { timestamps: true }
 );

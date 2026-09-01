@@ -1,76 +1,67 @@
 import { Response } from 'express';
-import VisitRequest from '../models/VisitRequest';
+import asyncHandler from 'express-async-handler';
+import RequestService from '../services/RequestService';
+import OpportunityService from '../services/OpportunityService';
 import { AuthRequest } from '../middleware/auth';
 
-export const createRequest = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    const { opportunityId, requestedDate, studentCount } = req.body;
+export const createRequest = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+  const { opportunityId, requestedDate, studentCount } = req.body;
 
-    if (req.user?.profileModel !== 'University' || !req.user?.profileId) {
-      res.status(403).json({ message: 'Only universities can create requests' });
-      return;
-    }
-
-    const visitRequest = await VisitRequest.create({
-      universityId: req.user.profileId,
-      opportunityId,
-      requestedDate,
-      studentCount,
-    });
-
-    res.status(201).json(visitRequest);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  if (!req.user?.universityId) {
+    res.status(403);
+    throw new Error('Only universities can create requests');
   }
-};
 
-export const getRequests = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    let requests;
-    
-    if (req.user?.profileModel === 'University') {
-      requests = await VisitRequest.find({ universityId: req.user.profileId })
-        .populate({ path: 'opportunityId', populate: { path: 'companyId', select: 'name' } });
-    } else if (req.user?.profileModel === 'Company') {
-      requests = await VisitRequest.find()
-        .populate({ path: 'opportunityId', match: { companyId: req.user.profileId } })
-        .populate('universityId', 'name location');
-        
-      // Filter out requests where opportunityId is null (due to match condition)
-      requests = requests.filter(request => request.opportunityId !== null);
-    } else {
-      res.status(403).json({ message: 'Not authorized' });
-      return;
-    }
-
-    res.json(requests);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  const opportunity = await OpportunityService.getOpportunityById(opportunityId);
+  if (!opportunity) {
+    res.status(404);
+    throw new Error('Opportunity not found');
   }
-};
 
-export const updateRequestStatus = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    const { status } = req.body;
-    
-    if (req.user?.profileModel !== 'Company') {
-      res.status(403).json({ message: 'Only companies can update request status' });
-      return;
-    }
+  const visitRequest = await RequestService.createRequest({
+    universityId: req.user.universityId,
+    companyId: opportunity.companyId,
+    opportunityId,
+    requestedDate,
+    studentCount,
+  });
 
-    const visitRequest = await VisitRequest.findByIdAndUpdate(
-      req.params.id,
-      { status },
-      { new: true }
-    );
+  res.status(201).json(visitRequest);
+});
 
-    if (!visitRequest) {
-      res.status(404).json({ message: 'Request not found' });
-      return;
-    }
+export const getRequests = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
 
-    res.json(visitRequest);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  let query: any = {};
+  
+  if (req.user?.universityId) {
+    query = { universityId: req.user.universityId };
+  } else if (req.user?.companyId) {
+    query = { companyId: req.user.companyId };
+  } else {
+    res.status(403);
+    throw new Error('Not authorized');
   }
-};
+
+  const result = await RequestService.getPaginatedRequests(query, page, limit);
+  res.json(result);
+});
+
+export const updateRequestStatus = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+  const { status } = req.body;
+  
+  if (!req.user?.companyId) {
+    res.status(403);
+    throw new Error('Only companies can update request status');
+  }
+
+  const visitRequest = await RequestService.updateRequestStatus(req.params.id, status);
+
+  if (!visitRequest) {
+    res.status(404);
+    throw new Error('Request not found');
+  }
+
+  res.json(visitRequest);
+});
