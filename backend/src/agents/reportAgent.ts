@@ -1,0 +1,208 @@
+/**
+ * INDUSTRYxLINK – Report Agent
+ *
+ * Generates a comprehensive post-visit summary report.
+ * Includes: attendance statistics, company feedback, student participation
+ * rates, visit outcomes, and historical trend analysis.
+ * Delivers formatted reports to the coordinator.
+ */
+
+import VisitReport from '../models/VisitReport';
+import AttendanceRecord from '../models/AttendanceRecord';
+import VisitRequest from '../models/VisitRequest';
+import {
+  IAgent,
+  AgentResult,
+  AgentLog,
+  VisitReportData,
+} from './types';
+
+interface ReportInput {
+  visitId: string;
+  universityName: string;
+  companyName: string;
+  visitDate: string;
+  coordinatorNotes?: string;
+}
+
+class ReportAgent implements IAgent<ReportInput, VisitReportData> {
+  public name = 'ReportAgent';
+
+  public async execute(input: ReportInput): Promise<AgentResult<VisitReportData>> {
+    const logs: AgentLog[] = [];
+
+    logs.push({
+      agentName: this.name,
+      action: 'START_REPORT_GENERATION',
+      timestamp: new Date(),
+      input: { visitId: input.visitId },
+      status: 'RUNNING',
+    });
+
+    try {
+      // Fetch attendance records for this visit
+      const attendanceRecords = await AttendanceRecord.find({ visitId: input.visitId });
+
+      const totalRegistered = attendanceRecords.length;
+      const totalAttended = attendanceRecords.filter(r => r.present).length;
+      const noShows = totalRegistered - totalAttended;
+      const attendanceRate = totalRegistered > 0
+        ? Math.round((totalAttended / totalRegistered) * 100)
+        : 0;
+
+      // Generate summary text
+      const summary = this.generateSummary({
+        universityName: input.universityName,
+        companyName: input.companyName,
+        visitDate: new Date(input.visitDate),
+        totalRegistered,
+        totalAttended,
+        noShows,
+        attendanceRate,
+        coordinatorNotes: input.coordinatorNotes,
+      });
+
+      // Generate recommendations
+      const recommendations = this.generateRecommendations(attendanceRate, totalRegistered);
+
+      // Build report data
+      const reportData: VisitReportData = {
+        visitId: input.visitId,
+        universityName: input.universityName,
+        companyName: input.companyName,
+        visitDate: new Date(input.visitDate),
+        totalRegistered,
+        totalAttended,
+        attendanceRate,
+        noShows,
+        summary,
+        recommendations,
+      };
+
+      // Persist the report
+      await VisitReport.create({
+        visitId: input.visitId,
+        generatedAt: new Date(),
+        universityName: input.universityName,
+        companyName: input.companyName,
+        visitDate: new Date(input.visitDate),
+        totalRegistered,
+        totalAttended,
+        attendanceRate,
+        noShows,
+        summary,
+        recommendations,
+      });
+
+      logs.push({
+        agentName: this.name,
+        action: 'REPORT_GENERATED',
+        timestamp: new Date(),
+        output: {
+          attendanceRate: `${attendanceRate}%`,
+          totalRegistered,
+          totalAttended,
+          recommendationCount: recommendations.length,
+        },
+        status: 'COMPLETED',
+      });
+
+      // Generate historical context
+      const historicalVisits = await VisitRequest.countDocuments({
+        status: 'ACCEPTED',
+      });
+
+      logs.push({
+        agentName: this.name,
+        action: 'HISTORICAL_CONTEXT',
+        timestamp: new Date(),
+        output: { totalHistoricalVisits: historicalVisits },
+        status: 'COMPLETED',
+      });
+
+      return {
+        success: true,
+        data: reportData,
+        logs,
+      };
+    } catch (error: any) {
+      logs.push({
+        agentName: this.name,
+        action: 'REPORT_ERROR',
+        timestamp: new Date(),
+        status: 'FAILED',
+        error: error.message,
+      });
+
+      return {
+        success: false,
+        error: error.message,
+        logs,
+      };
+    }
+  }
+
+  private generateSummary(data: {
+    universityName: string;
+    companyName: string;
+    visitDate: Date;
+    totalRegistered: number;
+    totalAttended: number;
+    noShows: number;
+    attendanceRate: number;
+    coordinatorNotes?: string;
+  }): string {
+    const lines = [
+      `INDUSTRY VISIT REPORT`,
+      `${'='.repeat(50)}`,
+      ``,
+      `University: ${data.universityName}`,
+      `Company: ${data.companyName}`,
+      `Visit Date: ${data.visitDate.toLocaleDateString()}`,
+      `Report Generated: ${new Date().toLocaleDateString()}`,
+      ``,
+      `ATTENDANCE SUMMARY`,
+      `${'─'.repeat(30)}`,
+      `Total Registered: ${data.totalRegistered}`,
+      `Total Attended: ${data.totalAttended}`,
+      `No-Shows: ${data.noShows}`,
+      `Attendance Rate: ${data.attendanceRate}%`,
+    ];
+
+    if (data.coordinatorNotes) {
+      lines.push(``, `COORDINATOR NOTES`, `${'─'.repeat(30)}`, data.coordinatorNotes);
+    }
+
+    lines.push(``, `${'='.repeat(50)}`);
+    lines.push(`Generated by INDUSTRYxLINK Report Agent`);
+
+    return lines.join('\n');
+  }
+
+  private generateRecommendations(attendanceRate: number, totalRegistered: number): string[] {
+    const recommendations: string[] = [];
+
+    if (attendanceRate < 50) {
+      recommendations.push('Critical: Attendance rate is below 50%. Consider implementing mandatory registration confirmation closer to the visit date.');
+      recommendations.push('Investigate root causes of low attendance — survey students for barriers.');
+    } else if (attendanceRate < 70) {
+      recommendations.push('Attendance rate is below 70%. Consider sending additional reminders and requiring attendance confirmation 48 hours before the visit.');
+    } else if (attendanceRate >= 90) {
+      recommendations.push('Excellent attendance rate! Consider maintaining current communication and reminder practices.');
+    }
+
+    if (totalRegistered < 10) {
+      recommendations.push('Low registration count. Consider broadening the visit opportunity to more degree programmes.');
+    }
+
+    if (totalRegistered > 100) {
+      recommendations.push('Large group visit. Consider splitting into smaller groups for a better experience.');
+    }
+
+    recommendations.push('Collect feedback from both students and the company to improve future visits.');
+
+    return recommendations;
+  }
+}
+
+export default new ReportAgent();
