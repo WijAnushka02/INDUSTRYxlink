@@ -2,346 +2,264 @@
 
 > A centralised platform connecting universities and companies to discover, coordinate, manage, and analyse industry visits and academic–industry engagement opportunities.
 
+---
+
 ## 📌 Overview
 
-**INDUSTRYxLINK** is a platform designed to improve the way universities and companies coordinate industry visits.
+**INDUSTRYxLINK** is an agentic application that automates the end-to-end process of organising university industry visits.
 
-Currently, arranging an industry visit often involves emails, phone calls, spreadsheets, separate registration forms, and manual communication between university coordinators and company representatives. This can make it difficult to discover suitable companies, identify available visit opportunities, manage student capacity, coordinate dates, and respond quickly when a visit is postponed or cancelled.
+Rather than relying on manual emails, phone calls, spreadsheets, and fragmented communication channels, INDUSTRYxLINK deploys **multiple collaborating AI agents** — built on the **IFS Loops** agentic framework — that work together to discover suitable companies, manage student registrations, check capacity, coordinate communication, send reminders, process attendance, and generate reports.
 
-INDUSTRYxLINK brings these activities into a single platform.
-
-The system connects **students, lecturers, university coordinators, and company engagement representatives**, allowing them to discover suitable opportunities, manage visit requirements, receive notifications, and analyse previous industry engagement.
+This is not a chatbot. It is an **enterprise workflow automation system** where multiple agents make decisions based on information and business rules, demonstrating the power of **agentic AI** applied to a real-world coordination problem.
 
 ---
 
 ## 🎯 Problem
 
-University industry visits provide students with valuable exposure to real-world software engineering, technology, business, and professional environments.
+University industry visits provide students with valuable exposure to real-world software engineering, technology, business, and professional environments. However, the current process is entirely manual:
 
-However, the current process has several challenges:
-
-* Universities have difficulty finding the correct industry engagement contacts.
-* Company representatives are difficult to discover and contact.
-* Available visit opportunities and participant quotas are not centrally visible.
-* Universities may not know which companies are currently accepting visits.
-* Companies need to manually handle requests from different universities.
-* University academic calendars, examination periods, and internship periods are not considered systematically.
-* Visit postponements and cancellations can cause transportation and scheduling problems.
-* Students may miss opportunities because available visits are not easily discoverable.
-* There is limited data about previous university–company engagement.
-* It is difficult to identify suitable companies based on degree programme, student count, and academic requirements.
+- **Communication overhead** – Coordinators need to email and call companies individually.
+- **Student registration** – Collecting and managing registrations via forms and spreadsheets.
+- **Capacity management** – Manually checking how many seats are available and managing quotas.
+- **Attendance tracking** – Processing attendance lists after each event by hand.
+- **Reminders** – Sending timely reminders to both students and companies before visits.
+- **Reporting** – Creating summary reports manually after each visit.
+- **Discovery** – Universities struggle to find suitable companies based on degree programmes, student count, and subject areas.
+- **Calendar conflicts** – Academic calendars, examination periods, and internship periods are not considered systematically.
+- **Disruption handling** – Visit postponements and cancellations cause transportation and scheduling problems with no automated notification.
 
 ---
 
-# 💡 Proposed Solution
+## 💡 Proposed Solution – Multi-Agent Architecture
 
-INDUSTRYxLINK provides a centralised platform where universities and companies can manage industry-visit opportunities.
+INDUSTRYxLINK solves this by deploying **seven specialised AI agents** that collaborate through the IFS Loops framework:
 
-The platform allows:
+### 🤖 The Seven Agents
 
-### 🏫 Universities
+| # | Agent | Responsibility |
+|---|-------|---------------|
+| 1 | **Visit Request Agent** | Receives and processes a visit request from a university coordinator |
+| 2 | **Company Matching Agent** | Identifies suitable companies based on the students' degree/subjects and requested visit area |
+| 3 | **Capacity Agent** | Checks the number of available seats and manages the student quota |
+| 4 | **Communication Agent** | Generates and sends emails to companies and students |
+| 5 | **Reminder Agent** | Sends timely reminders before the visit |
+| 6 | **Attendance Agent** | Processes the attendance list after the event |
+| 7 | **Report Agent** | Generates a summary report for the coordinator |
 
-University coordinators and lecturers can:
+### 🔄 How the Agents Collaborate
 
-* Create and manage their university profile.
-* Maintain academic calendar information.
-* Add examination periods.
-* Add internship starting periods and durations.
-* Specify degree programmes and specialisations.
-* Maintain batch sizes and student information.
-* Discover relevant companies and engagement coordinators.
-* View available industry-visit opportunities.
-* Submit visit requests.
-* Track visit-request status.
-* Receive notifications about postponements, cancellations, and rescheduling.
-* View company locations and distance using Google Maps.
-* View previous university–company engagement.
-* Analyse their historical industry visits.
-
-### 🏢 Companies
-
-Company engagement coordinators can:
-
-* Create and manage company profiles.
-* Manage industry-visit opportunities.
-* Specify available dates and time slots.
-* Specify maximum participant capacity.
-* Specify visit duration.
-* Define eligible degree programmes.
-* Specify what students will receive from the visit.
-* Accept or reject university requests.
-* Reschedule or cancel visits.
-* Notify universities about schedule changes.
-* View universities that previously visited the company.
-* Analyse historical engagement statistics.
-
-### 🎓 Students
-
-Students can:
-
-* View available industry visits through their university.
-* Discover opportunities relevant to their degree.
-* Receive visit-related notifications.
-* View company information and location.
-* View upcoming and previous visits.
-
----
-
-# 🔗 Core Concept
-
-INDUSTRYxLINK uses a **recommendation-based discovery system**, inspired by platforms such as LinkedIn.
-
-Instead of requiring university coordinators to manually search for companies, the system can recommend relevant companies and opportunities based on factors such as:
-
-* Degree programme
-* Academic field
-* Number of students
-* Academic calendar
-* Internship period
-* Company visit capacity
-* Visit topics
-* Previous engagement
-* Location
-* Available dates
-
-### Example
-
-A university has:
-
-> BSc (Hons) in Software Engineering
-> 45 students
-> Internship begins in July
-> Academic semester ends in June
-
-INDUSTRYxLINK can identify companies offering:
-
-> Software Engineering / QA / DevOps / Cloud / AI related sessions
-> Capacity: 40–50 students
-> Available: June
-> Suitable for Software Engineering students
-
-The platform can then rank these opportunities according to their suitability.
-
----
-
-# 🚀 Key Features
-
-## 1. Industry Opportunity Discovery
-
-Universities can discover companies and available industry-visit opportunities based on their requirements.
-
-## 2. Company Engagement Coordinator Discovery
-
-University coordinators can identify the relevant company representative responsible for university engagement instead of searching manually through different channels.
-
-## 3. Smart Recommendation System
-
-A recommendation mechanism suggests suitable companies and visit opportunities based on university and company requirements.
-
-## 4. Visit Quota Management
-
-Companies can define:
-
-* Maximum participants
-* Available visit slots
-* Number of visits per period
-* Eligible degree programmes
-
-Universities can see available capacity before submitting a request.
-
-## 5. Academic Calendar Integration
-
-Universities can maintain:
-
-* Semester dates
-* Examination periods
-* Internship periods
-* Academic holidays
-* Batch information
-
-This information can be used when identifying suitable visit dates.
-
-## 6. Visit Request Management
-
-A complete workflow for:
-
-```text
-University
-    ↓
-Discover Opportunity
-    ↓
-Submit Request
-    ↓
-Company Review
-    ↓
-Accepted / Rejected
-    ↓
-Visit Scheduled
-    ↓
-Visit Completed
+```mermaid
+flowchart LR
+    A["🧑‍🏫 Coordinator Request"] --> B["1️⃣ Visit Request Agent"]
+    B --> C["2️⃣ Company Matching Agent"]
+    C --> D["3️⃣ Capacity Agent"]
+    D --> E["4️⃣ Communication Agent"]
+    E --> F["5️⃣ Reminder Agent"]
+    F --> G["6️⃣ Attendance Agent"]
+    G --> H["7️⃣ Report Agent"]
+    H --> I["📋 Final Report"]
 ```
 
-## 7. Postponement & Cancellation Notifications
+Each agent is autonomous but communicates with others to form a **coordinated workflow pipeline**.
 
-If a company postpones or cancels a visit, the university coordinator can receive an immediate notification.
+---
 
-This allows universities to:
+## 🚀 Example Workflow
 
-* Inform students
-* Cancel transportation
-* Update schedules
-* Reschedule the visit
-* Reduce unnecessary costs
+> **Coordinator:** *"We need an industry visit for 40 second-year Software Engineering students interested in cloud computing during October."*
 
-## 8. Location & Distance
+Here's how the agents respond:
 
-Google Maps integration can display:
+```
+1. Visit Request Agent
+   └─ Parses the request → 40 students, 2nd year, Software Engineering, Cloud Computing, October
 
-* Company location
-* University location
-* Distance
-* Estimated travel information
+2. Company Matching Agent
+   └─ Identifies suitable companies offering Cloud Computing sessions
+   └─ Matches by: degree relevance, visit topics, location, previous engagement
+   └─ Returns ranked list: Company A (95%), Company B (87%), Company C (72%)
 
-## 9. Engagement Analytics
+3. Capacity Agent
+   └─ Checks available seats at each matched company
+   └─ Company A: 50 seats available ✅
+   └─ Company B: 30 seats available ❌ (insufficient for 40)
+   └─ Company C: 45 seats available ✅
 
-The system can provide analytics such as:
+4. Communication Agent
+   └─ Generates and sends formal visit request emails to Company A & C
+   └─ Sends confirmation requests to students
+   └─ Collects student registrations
 
-### University
+5. Reminder Agent
+   └─ Schedules reminders: 1 week before, 3 days before, 1 day before
+   └─ Sends reminders to registered students
+   └─ Sends preparation details to the company
 
-* Number of industry visits per year
-* Companies visited
-* Number of completed visits
-* Upcoming visits
-* Most frequently visited companies
+6. Attendance Agent
+   └─ Processes the attendance list after the visit
+   └─ Marks present/absent students
+   └─ Flags no-shows
 
-### Company
-
-* Number of universities hosted
-* Number of visits conducted
-* Universities previously hosted
-* Number of students engaged
-* Engagement trends
-
-## 10. Engagement History
-
-Universities and companies can view previous engagement history.
-
-Example:
-
-```text
-University of XYZ
-
-Industry Visits:
-2024 → 3
-2025 → 5
-2026 → 4
-
-Companies:
-• Company A
-• Company B
-• Company C
-• Company D
+7. Report Agent
+   └─ Generates a comprehensive summary report
+   └─ Includes: attendance statistics, company feedback, student participation
+   └─ Delivers report to the coordinator
 ```
 
 ---
 
-# 🧑‍💻 User Roles
+## 🧠 Why Agentic AI?
 
-| Role                   | Responsibilities                             |
-| ---------------------- | -------------------------------------------- |
-| Student                | Discover and participate in visits           |
-| Lecturer               | Discover opportunities and coordinate visits |
-| University Coordinator | Manage university visits and engagement      |
-| Company Coordinator    | Manage visit opportunities and requests      |
-| System Administrator   | Manage platform and users                    |
+This project goes beyond a simple chatbot or CRUD application:
+
+| Aspect | Traditional Approach | INDUSTRYxLINK Agentic Approach |
+|--------|---------------------|-------------------------------|
+| Discovery | Manual search, emails, phone calls | Company Matching Agent auto-identifies suitable companies |
+| Capacity | Spreadsheets, back-and-forth emails | Capacity Agent checks and manages quotas in real-time |
+| Communication | Individual emails composed manually | Communication Agent generates and sends emails automatically |
+| Reminders | Coordinator remembers to send reminders | Reminder Agent sends scheduled notifications automatically |
+| Attendance | Paper lists, manual entry | Attendance Agent processes and flags discrepancies |
+| Reporting | Manual report creation | Report Agent generates comprehensive summaries |
+| Decision-making | Human-driven, sequential | Multiple agents collaborate and make decisions based on business rules |
 
 ---
 
-# 🏗️ System Architecture
+## 🏗️ System Architecture
 
 ```mermaid
 flowchart TB
+    subgraph Users
+        Coordinator["🧑‍🏫 University Coordinator"]
+        Student["🎓 Student"]
+        CompanyRep["🏢 Company Representative"]
+    end
 
-    Student[Student]
-    Lecturer[Lecturer]
-    University[University Coordinator]
-    Company[Company Coordinator]
+    subgraph Frontend["Frontend – React + TypeScript + Tailwind CSS"]
+        UI["Web Application"]
+    end
 
-    Frontend[React + TypeScript + Tailwind CSS]
+    subgraph Backend["Backend – Node.js + Express.js"]
+        API["REST API"]
+    end
 
-    API[Node.js + Express.js REST API]
+    subgraph AgenticLayer["IFS Loops Agentic Layer"]
+        VRA["Visit Request Agent"]
+        CMA["Company Matching Agent"]
+        CA["Capacity Agent"]
+        COMA["Communication Agent"]
+        RA["Reminder Agent"]
+        AA["Attendance Agent"]
+        REPA["Report Agent"]
+    end
 
-    Auth[Authentication & Authorization]
-    Visit[Industry Visit Management]
-    Recommendation[Recommendation Engine]
-    Notification[Notification Service]
-    Analytics[Analytics Service]
-    Maps[Google Maps API]
+    subgraph Services
+        Auth["Authentication & RBAC"]
+        Recommendation["Recommendation Engine"]
+        Notification["Notification Service"]
+        Analytics["Analytics Service"]
+        Maps["Google Maps API"]
+        Email["Email Service"]
+    end
 
-    DB[(MongoDB)]
+    subgraph Data["Data Layer"]
+        DB[("MongoDB")]
+    end
 
-    Student --> Frontend
-    Lecturer --> Frontend
-    University --> Frontend
-    Company --> Frontend
+    Coordinator --> UI
+    Student --> UI
+    CompanyRep --> UI
 
-    Frontend --> API
+    UI --> API
 
+    API --> AgenticLayer
     API --> Auth
-    API --> Visit
-    API --> Recommendation
-    API --> Notification
+
+    VRA --> CMA
+    CMA --> CA
+    CA --> COMA
+    COMA --> RA
+    RA --> AA
+    AA --> REPA
+
+    AgenticLayer --> Recommendation
+    AgenticLayer --> Notification
+    AgenticLayer --> Email
+
     API --> Analytics
     API --> Maps
 
     Auth --> DB
-    Visit --> DB
     Recommendation --> DB
     Notification --> DB
     Analytics --> DB
+    AgenticLayer --> DB
 ```
 
 ---
 
-# 🔄 Visit Management Workflow
+## 🔄 Visit Management Workflow
 
 ```mermaid
 sequenceDiagram
+    participant Coord as 🧑‍🏫 Coordinator
+    participant VRA as Visit Request Agent
+    participant CMA as Company Matching Agent
+    participant CA as Capacity Agent
+    participant COMA as Communication Agent
+    participant RA as Reminder Agent
+    participant AA as Attendance Agent
+    participant REPA as Report Agent
+    participant Company as 🏢 Company
 
-    participant U as University
-    participant S as INDUSTRYxLINK
-    participant C as Company
+    Coord->>VRA: Submit visit request
+    VRA->>CMA: Parsed requirements
 
-    U->>S: Search for opportunities
-    S->>S: Match university requirements
-    S-->>U: Recommended opportunities
+    CMA->>CMA: Match companies by degree, topic, location
+    CMA->>CA: Ranked company list
 
-    U->>S: Submit visit request
-    S->>C: Notify company coordinator
+    CA->>CA: Check available seats
+    CA->>COMA: Confirmed companies with capacity
 
-    C->>S: Review request
+    COMA->>Company: Send visit request email
+    Company-->>COMA: Accept / Reject
 
-    alt Request Accepted
-        C->>S: Accept request
-        S-->>U: Visit confirmed
-    else Request Rejected
-        C->>S: Reject request
-        S-->>U: Request rejected
+    alt Visit Accepted
+        COMA->>Coord: Visit confirmed notification
+        COMA->>COMA: Collect student registrations
+        COMA->>RA: Registration complete
+
+        RA->>Coord: Reminder (1 week before)
+        RA->>Coord: Reminder (1 day before)
+        RA->>Company: Preparation details
+
+        Note over AA: Visit takes place
+
+        AA->>AA: Process attendance list
+        AA->>REPA: Attendance data
+
+        REPA->>REPA: Generate summary report
+        REPA->>Coord: Final report delivered
+    else Visit Rejected
+        COMA->>CMA: Try next company
     end
-
-    C->>S: Update visit schedule
-    S-->>U: Schedule notification
 ```
 
 ---
 
-# 🧠 Recommendation System
+## 🧩 Agent Details
 
-The recommendation engine is one of the core components of INDUSTRYxLINK.
+### 1. Visit Request Agent
 
-A suitability score can be calculated using multiple factors.
+- Receives natural language requests from university coordinators
+- Extracts key parameters: student count, year, degree programme, topic interests, preferred dates
+- Validates the request against university academic calendar
+- Passes structured requirements to the Company Matching Agent
 
-For example:
+### 2. Company Matching Agent
+
+- Maintains a knowledge base of registered companies and their visit offerings
+- Matches based on: degree relevance, visit topics, company industry, location, previous engagement history
+- Calculates a **suitability score** for each company:
 
 ```text
 Suitability Score =
@@ -350,82 +268,139 @@ Suitability Score =
     + Capacity Match
     + Date Compatibility
     + Internship Period Compatibility
-    + Location
-    + Previous Engagement
+    + Location Proximity
+    + Previous Engagement Score
 ```
 
-The system can rank companies according to the calculated score.
+- Returns a ranked list of suitable companies
 
-### Example
+### 3. Capacity Agent
 
-```text
-University Requirement
-        │
-        ├── Degree: Software Engineering
-        ├── Students: 45
-        ├── Preferred Month: June
-        └── Topics: Software Engineering, Cloud, AI
-                │
-                ▼
-       Recommendation Engine
-                │
-        ┌───────┼────────┐
-        ▼       ▼        ▼
-     Company A Company B Company C
-       95%       87%       72%
-```
+- Checks real-time availability at each matched company
+- Verifies: maximum participant capacity, available time slots, existing bookings
+- Filters out companies that cannot accommodate the requested student count
+- Manages quota allocation when multiple universities request the same company
 
-The recommendation algorithm can initially use a rule-based scoring system and later be extended with machine-learning techniques based on historical engagement data.
+### 4. Communication Agent
+
+- Generates professional visit request emails to companies
+- Sends confirmation and registration links to students
+- Handles acceptance/rejection responses from companies
+- Manages follow-up communication for pending requests
+
+### 5. Reminder Agent
+
+- Schedules automated reminders at configurable intervals
+- Sends reminders to: students (registration deadlines, visit details), companies (preparation requirements), coordinators (action items)
+- Handles visit postponement and cancellation notifications
+- Triggers re-scheduling workflows when needed
+
+### 6. Attendance Agent
+
+- Processes attendance data after the visit
+- Compares registered students against actual attendees
+- Flags no-shows and late cancellations
+- Records attendance statistics for analytics
+
+### 7. Report Agent
+
+- Generates comprehensive post-visit summary reports
+- Includes: attendance statistics, company feedback, student participation rates, visit outcomes
+- Provides historical trend analysis
+- Delivers formatted reports to the coordinator
 
 ---
 
-# 🛠️ Technology Stack
+## 🎯 Core Features
 
-## Frontend
+### Industry Opportunity Discovery
+Universities discover companies and available visit opportunities automatically through the Company Matching Agent.
 
-* React.js
-* TypeScript
-* Tailwind CSS
-* Vite
-* Axios
-* React Router
-* Recharts
+### Smart Recommendation System
+A recommendation engine suggests suitable companies and visit opportunities based on multiple weighted factors.
 
-## Backend
+### Visit Quota Management
+Companies define maximum participants, available slots, and eligible degree programmes. The Capacity Agent manages this in real-time.
 
-* Node.js
-* Express.js
-* TypeScript
-* REST API
-* Mongoose
+### Academic Calendar Integration
+Universities maintain semester dates, examination periods, internship periods, and holidays. Agents use this data when identifying suitable visit dates.
 
-## Database
+### Automated Communication
+The Communication Agent handles all emails — from initial requests to confirmations and follow-ups.
 
-* MongoDB
+### Intelligent Reminders
+The Reminder Agent ensures timely notifications to all parties at configurable intervals.
 
-## Authentication
+### Attendance Processing
+The Attendance Agent automates post-visit attendance tracking and discrepancy detection.
 
-* JWT
-* Role-Based Access Control (RBAC)
-* bcrypt
+### Automated Reporting
+The Report Agent generates comprehensive summaries — no manual report creation needed.
 
-## External Services
+### Engagement Analytics
+Dashboards for universities and companies showing historical trends, engagement patterns, and participation statistics.
 
-* Google Maps API
-* Google Maps Distance Matrix / Routes API
-* Email Notification Service
-
-## DevOps & Development
-
-* Git
-* GitHub
-* GitHub Actions
-* Docker
-* Docker Compose
+### Location & Distance
+Google Maps integration displays company locations, distances, and estimated travel times.
 
 ---
 
-# 📁 Project Structure
+## 🧑‍💻 User Roles
+
+| Role | Responsibilities |
+|------|-----------------|
+| University Coordinator | Submit visit requests, manage university profile, view reports |
+| Lecturer | Discover opportunities, coordinate visits |
+| Student | View available visits, register, receive notifications |
+| Company Coordinator | Manage visit opportunities, accept/reject requests |
+| System Administrator | Manage platform, users, and agent configurations |
+
+---
+
+## 🛠️ Technology Stack
+
+### Frontend
+- React.js
+- TypeScript
+- Tailwind CSS
+- Vite
+- Axios
+- React Router
+- Recharts
+
+### Backend
+- Node.js
+- Express.js
+- TypeScript
+- REST API
+- Mongoose
+
+### Agentic Framework
+- **IFS Loops** – Multi-agent orchestration and collaboration
+
+### Database
+- MongoDB
+
+### Authentication
+- JWT
+- Role-Based Access Control (RBAC)
+- bcrypt
+
+### External Services
+- Google Maps API
+- Google Maps Distance Matrix / Routes API
+- Email Notification Service (SMTP / SendGrid)
+
+### DevOps & Development
+- Git
+- GitHub
+- GitHub Actions
+- Docker
+- Docker Compose
+
+---
+
+## 📁 Project Structure
 
 ```text
 INDUSTRYxLINK/
@@ -451,6 +426,14 @@ INDUSTRYxLINK/
 │   │   ├── routes/
 │   │   ├── models/
 │   │   ├── middleware/
+│   │   ├── agents/              ← IFS Loops Agent definitions
+│   │   │   ├── visitRequestAgent.ts
+│   │   │   ├── companyMatchingAgent.ts
+│   │   │   ├── capacityAgent.ts
+│   │   │   ├── communicationAgent.ts
+│   │   │   ├── reminderAgent.ts
+│   │   │   ├── attendanceAgent.ts
+│   │   │   └── reportAgent.ts
 │   │   ├── validators/
 │   │   ├── utils/
 │   │   ├── config/
@@ -472,7 +455,7 @@ INDUSTRYxLINK/
 
 ---
 
-# 🗄️ High-Level Database Model
+## 🗄️ High-Level Database Model
 
 ```mermaid
 erDiagram
@@ -490,6 +473,9 @@ erDiagram
 
     COMPANY ||--o{ ENGAGEMENT_HISTORY : records
     UNIVERSITY ||--o{ ENGAGEMENT_HISTORY : records
+
+    VISIT ||--o{ ATTENDANCE_RECORD : tracks
+    VISIT ||--o{ VISIT_REPORT : generates
 
     UNIVERSITY {
         string university_id
@@ -542,13 +528,25 @@ erDiagram
         date visit_date
         string status
     }
+
+    ATTENDANCE_RECORD {
+        string record_id
+        string student_id
+        boolean present
+        string notes
+    }
+
+    VISIT_REPORT {
+        string report_id
+        date generated_at
+        string summary
+        int attendance_count
+    }
 ```
 
 ---
 
-# 📊 Analytics Dashboard
-
-INDUSTRYxLINK can provide dashboards for both universities and companies.
+## 📊 Analytics Dashboard
 
 ### University Dashboard
 
@@ -560,6 +558,7 @@ Cancelled Visits       1
 
 Companies Engaged     8
 Students Participated 430
+Agent Actions Today    27
 ```
 
 ### Company Dashboard
@@ -574,86 +573,85 @@ Software Engineering
 
 Most Active Period:
 June – August
+
+Automated Emails Sent: 342
 ```
 
-These analytics can help organisations understand their industry–academia engagement patterns and improve future planning.
+---
+
+## 🔐 Security
+
+- JWT-based authentication
+- Role-based access control
+- Password encryption with bcrypt
+- API authorization
+- Input validation
+- Secure API communication
+- Protection against unauthorized access
+- Audit logging for all agent actions
 
 ---
 
-# 🔐 Security
+## 🔮 Future Enhancements
 
-INDUSTRYxLINK will implement:
-
-* JWT-based authentication
-* Role-based access control
-* Password encryption
-* API authorization
-* Input validation
-* Secure API communication
-* Protection against unauthorized access
-* Audit logging for important actions
-
----
-
-# 🔮 Future Enhancements
-
-The platform can later be extended beyond industry visits.
-
-### Potential future features
-
-* Internship opportunity recommendations
-* Industry project collaboration
-* Guest lecture management
-* Company-sponsored university events
-* Research collaboration
-* Industrial training opportunities
-* Student feedback after visits
-* Automated recommendation using machine learning
-* AI-assisted company–university matching
-* Calendar integrations
-* Automated email and WhatsApp notifications
-* Industry engagement scoring
-* National-level university–industry engagement analytics
-
-This allows INDUSTRYxLINK to evolve from an **industry visit management system** into a broader **university–industry collaboration platform**.
+- **Advanced NLP** – More natural language understanding in Visit Request Agent
+- **Machine Learning** – ML-enhanced Company Matching Agent using historical data
+- **Multi-channel Communication** – WhatsApp, SMS, and push notifications via Communication Agent
+- **Feedback Agent** – A new agent that collects and analyses student/company feedback post-visit
+- **Scheduling Agent** – Intelligent date negotiation between universities and companies
+- **Internship Matching** – Extending agents to recommend internship placements
+- **Research Collaboration** – Agent-managed university–company research partnerships
+- **National Analytics** – Country-level university–industry engagement dashboards
+- **Calendar Integrations** – Google Calendar, Outlook sync
+- **Guest Lecture Management** – Agent-coordinated guest lecture scheduling
 
 ---
 
-# 🎯 Project Objectives
+## 🏆 Why This Is Suitable for the IFS Loops Agentic Workshop
 
-1. Centralise university–industry visit coordination.
-2. Reduce manual communication and administrative work.
-3. Improve discovery of suitable industry opportunities.
-4. Help companies efficiently manage university engagement.
-5. Reduce the impact of visit postponements and cancellations.
-6. Improve planning using academic calendar information.
-7. Provide data-driven insights into industry engagement.
-8. Increase access to industry exposure for university students.
+This project directly demonstrates **agentic AI + enterprise workflow automation**, rather than simply building a chatbot:
 
----
-
-# 🌐 Target Users
-
-* Universities
-* Faculties
-* Departments
-* Lecturers
-* Student Coordinators
-* University Career/Industry Engagement Units
-* Company HR Teams
-* Company University Engagement Teams
-* Company Technical Teams
-* Undergraduate Students
+1. **Multiple Collaborating Agents** – Seven specialised agents work together, each with distinct responsibilities
+2. **Decision-Making** – Agents make decisions based on information and business rules (matching, capacity, scheduling)
+3. **Real-World Problem** – Solves a genuine coordination challenge faced by universities
+4. **Enterprise Workflow** – End-to-end automation from request to report
+5. **IFS Loops Integration** – Built on the IFS Loops framework for agent orchestration
+6. **Scalable Architecture** – New agents can be added as the system evolves
+7. **Observable Pipeline** – Each agent's actions and decisions can be inspected and audited
 
 ---
 
-# 📌 Project Vision
+## 🎯 Project Objectives
 
-> **To build a structured digital bridge between universities and the technology industry, making industry engagement easier to discover, coordinate, manage, and measure.**
+1. Demonstrate agentic AI applied to enterprise workflow automation.
+2. Centralise university–industry visit coordination through collaborating agents.
+3. Eliminate manual communication and administrative overhead.
+4. Automate company discovery, matching, and capacity management.
+5. Automate communication, reminders, and attendance processing.
+6. Generate comprehensive reports without human intervention.
+7. Provide data-driven insights into industry engagement patterns.
+8. Showcase the IFS Loops framework for multi-agent orchestration.
 
 ---
 
-# 🤝 Contributing
+## 🌐 Target Users
+
+- Universities, Faculties, and Departments
+- Lecturers and Student Coordinators
+- University Career/Industry Engagement Units
+- Company HR and University Engagement Teams
+- Company Technical Teams
+- Undergraduate Students
+
+---
+
+## 📌 Project Vision
+
+> **To build an intelligent, agent-driven platform that automates the entire university–industry visit lifecycle — from discovery to reporting — demonstrating how agentic AI can transform enterprise coordination workflows.**
+
+---
+
+## 🤝 Contributing
 
 Contributions are welcome.
 
@@ -664,15 +662,15 @@ Contributions are welcome.
 5. Create a Pull Request.
 
 ```bash
-git clone https://github.com/your-username/INDUSTRYxLINK.git
+git clone https://github.com/WijAnushka02/INDUSTRYxlink.git
 cd INDUSTRYxLINK
 ```
 
 ---
 
-# 📄 License
+## 📄 License
 
-This project is developed for educational and research purposes.
+This project is developed for educational and research purposes as part of the **IFS Loops Agentic Workshop**.
 
 ---
 
@@ -680,6 +678,6 @@ This project is developed for educational and research purposes.
 
 **INDUSTRYxLINK**
 
-Industry–Academia Engagement Platform
+AI-Powered Agentic University–Industry Visit Management System
 
-Developed as a software engineering project focused on improving university–industry collaboration.
+Developed as a software engineering project focused on demonstrating agentic AI for university–industry collaboration, built for the **IFS Loops Agentic Workshop**.
