@@ -2,7 +2,7 @@
  * INDUSTRYxLINK – Agent Orchestrator
  *
  * Central orchestration layer that coordinates the execution of all
- * seven agents in the IFS Loops pipeline:
+ * seven agents in the agentic pipeline:
  *
  *   1. Visit Request Agent   → Parse coordinator request
  *   2. Company Matching Agent → Find suitable companies

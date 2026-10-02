@@ -4,11 +4,37 @@
 
 ---
 
+## 📑 Table of Contents
+
+- [Overview](#-overview)
+- [Problem](#-problem)
+- [Proposed Solution – Multi-Agent Architecture](#-proposed-solution--multi-agent-architecture)
+- [Example Workflow](#-example-workflow)
+- [Why Agentic AI?](#-why-agentic-ai)
+- [System Architecture](#️-system-architecture)
+- [Visit Management Workflow](#-visit-management-workflow)
+- [Agent Details](#-agent-details)
+- [Core Features](#-core-features)
+- [User Roles](#-user-roles)
+- [Technology Stack](#️-technology-stack)
+- [Project Structure](#-project-structure)
+- [High-Level Database Model](#️-high-level-database-model)
+- [Analytics Dashboard](#-analytics-dashboard)
+- [Security](#-security)
+- [Future Enhancements](#-future-enhancements)
+- [Project Objectives](#-project-objectives)
+- [Target Users](#-target-users)
+- [Project Vision](#-project-vision)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
+
 ## 📌 Overview
 
 **INDUSTRYxLINK** is an agentic application that automates the end-to-end process of organising university industry visits.
 
-Rather than relying on manual emails, phone calls, spreadsheets, and fragmented communication channels, INDUSTRYxLINK deploys **multiple collaborating AI agents** — built on the **IFS Loops** agentic framework — that work together to discover suitable companies, manage student registrations, check capacity, coordinate communication, send reminders, process attendance, and generate reports.
+Rather than relying on manual emails, phone calls, spreadsheets, and fragmented communication channels, INDUSTRYxLINK deploys **multiple collaborating AI agents** that work together to discover suitable companies, manage student registrations, check capacity, coordinate communication, send reminders, process attendance, and generate reports.
 
 This is not a chatbot. It is an **enterprise workflow automation system** where multiple agents make decisions based on information and business rules, demonstrating the power of **agentic AI** applied to a real-world coordination problem.
 
@@ -32,7 +58,7 @@ University industry visits provide students with valuable exposure to real-world
 
 ## 💡 Proposed Solution – Multi-Agent Architecture
 
-INDUSTRYxLINK solves this by deploying **seven specialised AI agents** that collaborate through the IFS Loops framework:
+INDUSTRYxLINK solves this by deploying **seven specialised AI agents** that collaborate through a multi-agent orchestration framework:
 
 ### 🤖 The Seven Agents
 
@@ -142,7 +168,7 @@ flowchart TB
         API["REST API"]
     end
 
-    subgraph AgenticLayer["IFS Loops Agentic Layer"]
+    subgraph AgenticLayer["Agentic Layer"]
         VRA["Visit Request Agent"]
         CMA["Company Matching Agent"]
         CA["Capacity Agent"]
@@ -376,7 +402,7 @@ Google Maps integration displays company locations, distances, and estimated tra
 - Mongoose
 
 ### Agentic Framework
-- **IFS Loops** – Multi-agent orchestration and collaboration
+- Custom multi-agent orchestration and collaboration layer
 
 ### Database
 - MongoDB
@@ -426,7 +452,7 @@ INDUSTRYxLINK/
 │   │   ├── routes/
 │   │   ├── models/
 │   │   ├── middleware/
-│   │   ├── agents/              ← IFS Loops Agent definitions
+│   │   ├── agents/              ← Agent definitions
 │   │   │   ├── visitRequestAgent.ts
 │   │   │   ├── companyMatchingAgent.ts
 │   │   │   ├── capacityAgent.ts
@@ -607,30 +633,15 @@ Automated Emails Sent: 342
 
 ---
 
-## 🏆 Why This Is Suitable for the IFS Loops Agentic Workshop
-
-This project directly demonstrates **agentic AI + enterprise workflow automation**, rather than simply building a chatbot:
-
-1. **Multiple Collaborating Agents** – Seven specialised agents work together, each with distinct responsibilities
-2. **Decision-Making** – Agents make decisions based on information and business rules (matching, capacity, scheduling)
-3. **Real-World Problem** – Solves a genuine coordination challenge faced by universities
-4. **Enterprise Workflow** – End-to-end automation from request to report
-5. **IFS Loops Integration** – Built on the IFS Loops framework for agent orchestration
-6. **Scalable Architecture** – New agents can be added as the system evolves
-7. **Observable Pipeline** – Each agent's actions and decisions can be inspected and audited
-
----
-
 ## 🎯 Project Objectives
 
-1. Demonstrate agentic AI applied to enterprise workflow automation.
-2. Centralise university–industry visit coordination through collaborating agents.
-3. Eliminate manual communication and administrative overhead.
-4. Automate company discovery, matching, and capacity management.
-5. Automate communication, reminders, and attendance processing.
-6. Generate comprehensive reports without human intervention.
-7. Provide data-driven insights into industry engagement patterns.
-8. Showcase the IFS Loops framework for multi-agent orchestration.
+1. Centralise university–industry visit coordination through collaborating agents.
+2. Eliminate manual communication and administrative overhead.
+3. Automate company discovery, matching, and capacity management.
+4. Automate communication, reminders, and attendance processing.
+5. Generate comprehensive reports without human intervention.
+6. Provide data-driven insights into industry engagement patterns.
+7. Build a scalable multi-agent architecture for enterprise workflows.
 
 ---
 
@@ -647,7 +658,7 @@ This project directly demonstrates **agentic AI + enterprise workflow automation
 
 ## 📌 Project Vision
 
-> **To build an intelligent, agent-driven platform that automates the entire university–industry visit lifecycle — from discovery to reporting — demonstrating how agentic AI can transform enterprise coordination workflows.**
+> **To build an intelligent, agent-driven platform that automates the entire university–industry visit lifecycle — from discovery to reporting — transforming how universities and companies coordinate industry engagement.**
 
 ---
 
@@ -670,14 +681,4 @@ cd INDUSTRYxLINK
 
 ## 📄 License
 
-This project is developed for educational and research purposes as part of the **IFS Loops Agentic Workshop**.
-
----
-
-## 👨‍💻 Development Team
-
-**INDUSTRYxLINK**
-
-AI-Powered Agentic University–Industry Visit Management System
-
-Developed as a software engineering project focused on demonstrating agentic AI for university–industry collaboration, built for the **IFS Loops Agentic Workshop**.
+This project is developed for educational and research purposes.

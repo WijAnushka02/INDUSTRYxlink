@@ -23,7 +23,7 @@ This directory contains requirements documentation for INDUSTRYxLINK.
 - Company coordinators can accept/reject requests
 - Full lifecycle tracking: PENDING → ACCEPTED/REJECTED → COMPLETED
 
-### FR-5: Agentic Pipeline (IFS Loops)
+### FR-5: Agentic Pipeline
 - **Visit Request Agent**: Parse and validate coordinator requests
 - **Company Matching Agent**: Score and rank companies by suitability
 - **Capacity Agent**: Verify real-time seat availability

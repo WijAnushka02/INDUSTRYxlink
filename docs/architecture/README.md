@@ -16,7 +16,7 @@ INDUSTRYxLINK follows a multi-layered architecture:
 - JWT-based authentication with RBAC
 - Request validation via Zod schemas
 
-### Agentic Layer (IFS Loops)
+### Agentic Layer
 Seven specialised agents that orchestrate the visit management workflow:
 
 1. **Visit Request Agent** – Parses coordinator requests

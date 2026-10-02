@@ -60,7 +60,7 @@ app.use('/api/v1/auth', authLimiter, authRoutes); // Apply strict limiter to aut
 app.use('/api/v1/opportunities', opportunityRoutes);
 app.use('/api/v1/requests', requestRoutes);
 app.use('/api/v1/stats', statsRoutes);
-app.use('/api/v1/agents', agentRoutes); // IFS Loops Agentic Pipeline
+app.use('/api/v1/agents', agentRoutes); // Agentic Pipeline
 
 // Basic route
 app.get('/', (req, res) => {

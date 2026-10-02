@@ -1,5 +1,5 @@
 /**
- * INDUSTRYxLINK – IFS Loops Agentic Layer
+ * INDUSTRYxLINK – Agentic Layer
  * Shared types and interfaces for all agents
  */
 
